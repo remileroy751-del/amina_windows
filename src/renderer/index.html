@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https: data: blob:; media-src blob:">
+  <title>AMINA-FDS · Galerie</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Écran de connexion -->
+  <main id="setup" class="setup hidden">
+    <form id="setup-form" class="card" autocomplete="off">
+      <img src="logo.png" alt="" class="logo">
+      <h1>Connexion à Netlify</h1>
+      <p class="muted">Saisissez le jeton d'accès Netlify et l'adresse de votre site pour accéder à la galerie.</p>
+
+      <label for="token">Jeton d'accès Netlify</label>
+      <div class="row-input">
+        <input id="token" type="password" spellcheck="false" autocomplete="off">
+        <button type="button" id="toggle-token" class="ghost" title="Afficher / masquer">Afficher</button>
+      </div>
+
+      <label for="site">Site (ex. amina-fds.netlify.app)</label>
+      <input id="site" type="text" spellcheck="false" autocomplete="off">
+
+      <label class="check"><input id="remember" type="checkbox" checked>
+        Mémoriser le jeton sur cet ordinateur (chiffré avec votre session Windows)</label>
+
+      <button type="submit" id="login-btn" class="primary" disabled>Se connecter</button>
+
+      <details>
+        <summary>Où trouver ces informations ?</summary>
+        <p><b>Jeton :</b> Netlify → icône du profil → <i>User settings</i> → <i>Applications</i> →
+          <i>Personal access tokens</i> → <i>New access token</i> (il ne s'affiche qu'une fois).</p>
+        <p><b>Site :</b> l'adresse du site (<i>nom-du-site.netlify.app</i>) ou le <i>Project ID</i>
+          de <i>Site configuration</i>.</p>
+      </details>
+    </form>
+  </main>
+
+  <!-- Écran principal -->
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <img src="logo.png" alt="" class="mini-logo">
+      <h2>AMINA-FDS · Galerie</h2>
+      <span class="spacer"></span>
+      <button id="btn-site" class="bar-btn">Voir le site</button>
+      <button id="btn-refresh" class="bar-btn">Actualiser</button>
+      <button id="btn-logout" class="bar-btn">Déconnexion</button>
+    </header>
+    <nav class="tabs">
+      <button id="tab-photos" class="tab active">Photos</button>
+      <button id="tab-videos" class="tab">Vidéos</button>
+    </nav>
+    <section id="content" class="content"></section>
+  </div>
+
+  <!-- Ajout de photos -->
+  <dialog id="dlg-photos">
+    <h3>Ajouter des photos</h3>
+    <p id="photos-cat" class="muted"></p>
+    <div id="photos-list" class="photo-list"></div>
+    <p class="muted small">Les photos sont redimensionnées (1600 px max) et compressées automatiquement.</p>
+    <div class="dlg-actions">
+      <button id="photos-more" class="ghost">+ Ajouter d'autres photos</button>
+      <span class="spacer"></span>
+      <button id="photos-cancel" class="ghost">Annuler</button>
+      <button id="photos-ok" class="primary">Publier</button>
+    </div>
+  </dialog>
+
+  <!-- Ajout de vidéo -->
+  <dialog id="dlg-video">
+    <h3>Ajouter la vidéo</h3>
+    <div class="video-preview"><div id="video-name"></div><div id="video-info" class="muted small"></div></div>
+    <p class="muted">La vidéo (MP4) sera envoyée puis publiée sur le site. Cela peut prendre quelques minutes
+      selon sa taille et votre connexion. Limite : 100 Mo.</p>
+    <div class="dlg-actions">
+      <span class="spacer"></span>
+      <button id="video-cancel" class="ghost">Annuler</button>
+      <button id="video-ok" class="primary">Publier</button>
+    </div>
+  </dialog>
+
+  <!-- Confirmation -->
+  <dialog id="dlg-confirm">
+    <h3 id="confirm-title"></h3>
+    <p id="confirm-text"></p>
+    <div class="dlg-actions">
+      <span class="spacer"></span>
+      <button id="confirm-cancel" class="ghost">Annuler</button>
+      <button id="confirm-ok" class="danger">Confirmer</button>
+    </div>
+  </dialog>
+
+  <!-- Opération en cours -->
+  <dialog id="dlg-busy">
+    <h3>Veuillez patienter</h3>
+    <div class="progress"><div class="bar"></div></div>
+    <p id="busy-text"></p>
+    <p class="muted small">Gardez l'application ouverte pendant l'envoi.</p>
+  </dialog>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+  <input id="file-photos" type="file" accept="image/*" multiple class="hidden">
+  <input id="file-video" type="file" accept="video/mp4,.mp4" class="hidden">
+
+  <script src="renderer.js"></script>
+</body>
+</html>

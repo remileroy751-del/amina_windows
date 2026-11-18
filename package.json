@@ -1,0 +1,56 @@
+{
+  "name": "amina-galerie-admin",
+  "productName": "AMINA-FDS Galerie",
+  "version": "1.0.0",
+  "description": "Administration de la galerie du site AMINA-FDS (Netlify)",
+  "main": "src/main/main.js",
+  "author": "AMINA-FDS",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/service.test.js",
+    "dist": "electron-builder --win --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.aminafds.galerie",
+    "productName": "AMINA-FDS Galerie",
+    "copyright": "AMINA-FDS",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AMINA-FDS Galerie",
+      "installerLanguages": [
+        "fr_FR"
+      ],
+      "language": "1036",
+      "artifactName": "AminaGalerie-Setup-${version}.exe"
+    }
+  }
+}
